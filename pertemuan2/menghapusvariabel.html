@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menghapus Variable</title>
+</head>
+<body>
+    <h1>Menghapus Variable</h1>
+    
+    <script>
+        // Variabel yang dibuat tanpa awalan
+        nama = "John";
+        umur = 25;
+        
+        console.log("Sebelum dihapus:");
+        console.log("Nama: " + nama);
+        console.log("Umur: " + umur);
+        
+        // Penghapusan variabel dengan kata kunci delete
+        delete nama;
+        delete umur;
+        
+        console.log("Setelah dihapus:");
+        console.log("Nama: " + typeof nama);
+        console.log("Umur: " + typeof umur);
+        
+        // Variabel dengan var dan let akan dihapus otomatis
+        var varVariable = "ini var";
+        let letVariable = "ini let";
+        
+        console.log("Variable var dan let:");
+        console.log(varVariable);
+        console.log(letVariable);
+    </script>
+</body>
+</html>

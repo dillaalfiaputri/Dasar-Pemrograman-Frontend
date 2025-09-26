@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dialog Prompt</title>
+</head>
+<body>
+    <h1>Dialog Prompt</h1>
+    <button onclick="ambilInput()">Ambil Input</button>
+    
+    <script>
+        function ambilInput(){
+            var nama = prompt("Siapa nama Anda?", "Masukkan nama di sini");
+            var umur = prompt("Berapa umur Anda?", "0");
+            
+            if(nama != null && umur != null){
+                alert("Halo " + nama + ", umur Anda " + umur + " tahun");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dialog Confirm</title>
+</head>
+<body>
+    <h1>Dialog Confirm</h1>
+    <button onclick="konfirmasiHapus()">Hapus Data</button>
+    
+    <script>
+        function konfirmasiHapus(){
+            var yakin = confirm("Apakah Anda yakin ingin menghapus data ini?");
+            
+            if(yakin){
+                alert("Data berhasil dihapus!");
+            } else {
+                alert("Data tidak jadi dihapus");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menampilkan Isi Variable</title>
+</head>
+<body>
+    <h1>Menampilkan Isi Variable</h1>
+    <button onclick="tampilkanAlert()">Tampilkan Alert</button>
+    <button onclick="tampilkanDocument()">Tampilkan Document</button>
+    
+    <script>
+        var nama = "Via";
+        var umur = 20;
+        var kampus = "STIKOM PGRI Banyuwangi";
+        
+        // Fungsi console.log() menampilkan output ke console javascript
+        console.log("Nama: " + nama);
+        console.log("Umur: " + umur);
+        console.log("Kampus: " + kampus);
+        
+        // Fungsi document.write() menampilkan output ke dokumen HTML
+        function tampilkanDocument(){
+            document.write("Nama: " + nama + "<br>");
+            document.write("Umur: " + umur + "<br>");
+            document.write("Kampus: " + kampus + "<br>");
+        }
+        
+        // Fungsi alert() menampilkan output ke jendela dialog
+        function tampilkanAlert(){
+            alert("Nama: " + nama + "\nUmur: " + umur + "\nKampus: " + kampus);
+        }
+    </script>
+</body>
+</html>
