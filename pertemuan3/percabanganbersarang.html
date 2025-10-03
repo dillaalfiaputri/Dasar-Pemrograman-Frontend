@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Percabangan Bersarang (Nested)</title>
+</head>
+<body>
+    <script>
+        var username = prompt("Username:");
+        var password = prompt("Password:");
+
+        if(username == "stikom"){
+            if(password == "mahasiswa"){
+                document.write("<h2>Selamat datang di Stikom Banyuwangi</h2>");
+            } else {
+                document.write("<p>Password salah, coba lagi !< /p>");
+                }
+        } else {
+            document.write("<p>Anda tidak terdaftar !< /p>");
+        }
+    </script>
+</body>
+</html>
