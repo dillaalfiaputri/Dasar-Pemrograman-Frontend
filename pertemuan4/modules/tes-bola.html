@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>modules</title>
+</head>
+<body>
+    <script type="module">
+        import volumeBola from './bola.js';
+
+        let radius = prompt("Masukkan ukuran radius bola");
+        let vol = volumeBola(radius);
+
+        alert(`Bola dengan radius ${radius} memiliki volume sebesar ${vol}`);
+    </script>
+</body>
+</html>

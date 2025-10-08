@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>callback function</title>
+</head>
+<body>
+    <script>
+        const tampilkanHasil = (hasil) => alert(`Hasil = ${hasil}`);
+
+        const penjumlahan = (a,b, display) => {
+            let hasil = a + b;
+            display(hasil); // callback function
+        }
+        penjumlahan(9,6,tampilkanHasil);
+        // Hasil = 15
+
+        penjumlahan(9,6, (hasil) => alert(`Wah, hasilnya adalah ${hasil}`));
+        // Wah, hasilnya adalah 15
+    </script>
+</body>
+</html>
