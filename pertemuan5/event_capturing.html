@@ -1,0 +1,16 @@
+<p id="outer">Coba klik teks ini. Coba juga
+klik <strong id="inner">strong teks
+ini</strong></p>
+
+<script>
+    let outer = document.getElementById("outer");
+    let inner = document.getElementById("inner");
+
+    outer.addEventListener('click', ()=>{
+        alert("Outer elemen diklik");
+    },true);
+
+    inner.addEventListener('click', ()=>{
+        alert("Inner elemen diklik");
+    }, true);
+</script>

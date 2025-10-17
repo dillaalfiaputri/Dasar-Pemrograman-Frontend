@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Program Penjualan Motor</title>
+  <style>
+    body {
+      font-family: Arial;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    td {
+      padding: 5px;
+    }
+
+    /* 🔹 Judul utama dengan garis bawah */
+    .judul {
+      font-size: 34px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 3px solid #000;
+      width: 50%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* 🔹 Form dibatasi agar sama lebar dengan judul */
+    form {
+      width: 50%;
+      margin: 0 auto;
+    }
+
+    input[type=text] {
+      width: 150px;
+    }
+
+    /* 🔹 Garis di atas tombol */
+    .button {
+      margin-top: 20px;
+      text-align: center;
+      border-top: 2px solid black;
+      padding-top: 10px;
+      width: 100%; /* otomatis mengikuti form (50% dari layar) */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="judul">PROGRAM PENJUALAN MOTOR</div>
+
+  <form name="formMotor">
+    <table align="center">
+      <tr>
+        <td>Merk Motor</td>
+        <td>
+          <select name="motor">
+            <option value="honda">HONDA</option>
+            <option value="yamaha">YAMAHA</option>
+            <option value="suzuki">SUZUKI</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">Aksesoris</td>
+        <td>
+          <input type="checkbox" name="aksesoris" value="450000">Velg Racing<br>
+          <input type="checkbox" name="aksesoris" value="250000">Helm<br>
+          <input type="checkbox" name="aksesoris" value="300000">Jaket
+        </td>
+      </tr>
+      <tr>
+        <td>Cara Pembayaran</td>
+        <td>
+          <input type="radio" name="bayar" value="tunai">Tunai
+          <input type="radio" name="bayar" value="kredit">Kredit
+        </td>
+      </tr>
+      <tr>
+        <td>Harga</td>
+        <td><input type="text" name="harga" readonly></td>
+      </tr>
+      <tr>
+        <td>Bunga/Diskon</td>
+        <td><input type="text" name="bunga" readonly></td>
+      </tr>
+      <tr>
+        <td>Total</td>
+        <td><input type="text" name="total" readonly></td>
+      </tr>
+    </table>
+
+    <div class="button">
+      <input type="button" value="Proses" onclick="hitungTotal()">
+      <input type="reset" value="Reset">
+    </div>
+  </form>
+
+  <script>
+    function hitungTotal() {
+      var motor = document.formMotor.motor.value;
+      var hargaMotor = 0;
+
+      if (motor == "honda") hargaMotor = 15000000;
+      else if (motor == "yamaha") hargaMotor = 14000000;
+      else if (motor == "suzuki") hargaMotor = 13000000;
+
+      var totalAksesoris = 0;
+      var aksesoris = document.getElementsByName("aksesoris");
+      for (var i = 0; i < aksesoris.length; i++) {
+        if (aksesoris[i].checked) {
+          totalAksesoris += parseInt(aksesoris[i].value);
+        }
+      }
+
+      var totalHarga = hargaMotor + totalAksesoris;
+      var bungaDiskon = 0;
+      var total = 0;
+
+      var bayar = document.getElementsByName("bayar");
+      var metode = "";
+      for (var j = 0; j < bayar.length; j++) {
+        if (bayar[j].checked) {
+          metode = bayar[j].value;
+        }
+      }
+
+      if (metode == "tunai") {
+        bungaDiskon = totalHarga * 0.1 * -1;
+        total = totalHarga + bungaDiskon;
+      } else if (metode == "kredit") {
+        bungaDiskon = totalHarga * 0.15;
+        total = totalHarga + bungaDiskon;
+      } else {
+        alert("Pilih cara pembayaran terlebih dahulu!");
+        return;
+      }
+
+      document.formMotor.harga.value = totalHarga;
+      document.formMotor.bunga.value = bungaDiskon;
+      document.formMotor.total.value = total;
+    }
+  </script>
+
+</body>
+</html>
