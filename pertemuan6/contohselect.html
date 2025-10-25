@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contoh Select Option</title>
+</head>
+<body>
+    <h1>Pilih Bahasa Pemrograman Favorit Anda</h1>
+
+    <label for="bahasa">Pilih Bahasa:</label>
+    <select id="bahasa" onchange="tampilkanPilihan()">
+        <option value=""> -- Pilih salah satu --</option>
+        <option value="javascript">JavaScript</option>
+        <option value="python">Python</option>
+        <option value="java">Java</option>
+        <option value="csharp">C#</option>
+    </select>
+
+    <p id="hasil"></p>
+
+<script>
+    function tampilkanPilihan() {
+    // 1. Ambil elemen <select> menggunakan ID-nya.
+        const selectElement = document.getElementById('bahasa');
+
+    // 2. Ambil elemen <p> tempat hasil akan ditampilkan.
+        const hasilElement = document.getElementById('hasil');
+        const pilihanNilai = selectElement.value;
+        const pilihanTeks = selectElement.options[selectElement.selectedIndex].textContent;
+
+    // 3. Periksa apakah pengguna telah memilih opsi yang valid (bukan opsi " -- Pilih salah satu -- ").    
+        if (pilihanNilai) {
+        // Tampilkan hasil di elemen <p>.
+        hasilElement.textContent = `Anda memilih: ${pilihanTeks}. Nilai yang dikirim adalah: $(pilihanNilai}.`;
+        hasilElement.style.color = 'green';
+        } else {
+        // Tampilkan pesan jika opsi default yang dipilih.
+        hasilElement.textContent = `Silakan pilih bahasa favorit Anda.`;
+        hasilElement.style.color = 'red';
+        }
+    }       
+</script>
+</body>
+</html>

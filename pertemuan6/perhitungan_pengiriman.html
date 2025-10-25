@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Perhitungan Biaya Kirim Paket</title>
+<style>
+  body {
+    font-family: Calibri, Arial, sans-serif;
+    background-color: #ffffff;
+  }
+
+  .box {
+    width: 600px;
+    margin: 50px auto;
+    border: 2px solid #6cc36c;
+    border-radius: 25px;
+    padding: 20px 40px;
+  }
+
+  h2 {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 25px;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  td {
+    padding: 8px 0;
+    vertical-align: middle;
+  }
+
+  .label {
+    font-weight: bold;
+  }
+
+  .symbol {
+    color: #6cc36c;
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 250px;
+    padding: 5px;
+    border: 1px solid #6cc36c;
+    border-radius: 3px;
+    outline: none;
+  }
+
+  input[readonly] {
+    background-color: #f8fff8;
+  }
+
+  select {
+    appearance: none;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8"><polygon points="0,0 12,0 6,8" style="fill:black;"/></svg>') no-repeat right 10px center;
+    background-size: 12px;
+  }
+
+  .rp {
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<div class="box">
+  <h2>PERHITUNGAN BIAYA KIRIM PAKET</h2>
+
+  <table>
+    <tr>
+      <td><span class="symbol">❖</span>Nomor Resi</td>
+      <td>:</td>
+      <td><input type="text" id="resi"></td>
+    </tr>
+    <tr>
+      <td><span class="symbol">❖</span>Berat Barang</td>
+      <td>:</td>
+      <td><input type="number" id="berat" step="0.1" min="0"></td>
+    </tr>
+    <tr>
+      <td><span class="symbol">❖</span>Kota Asal</td>
+      <td>:</td>
+      <td>
+        <select id="asal" onchange="hitungBiaya()">
+          <option value="">-- Pilih Kota --</option>
+          <option value="Banyuwangi">Banyuwangi</option>
+          <option value="Jember">Jember</option>
+          <option value="Probolinggo">Probolinggo</option>
+          <option value="Surabaya">Surabaya</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td><span class="symbol">❖</span>Kota Tujuan</td>
+      <td>:</td>
+      <td>
+        <select id="tujuan" onchange="hitungBiaya()">
+          <option value="">-- Pilih Kota --</option>
+          <option value="Banyuwangi">Banyuwangi</option>
+          <option value="Jember">Jember</option>
+          <option value="Probolinggo">Probolinggo</option>
+          <option value="Surabaya">Surabaya</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td><span class="symbol">❖</span>Total Biaya Pengiriman</td>
+      <td>:</td>
+      <td><span class="rp">Rp.</span> <input type="text" id="total" readonly></td>
+    </tr>
+  </table>
+</div>
+
+<script>
+const biayaJarak = {
+  "Banyuwangi": {"Banyuwangi":5000,"Jember":7500,"Probolinggo":10000,"Surabaya":15000},
+  "Jember": {"Banyuwangi":7500,"Jember":5000,"Probolinggo":8500,"Surabaya":12500},
+  "Probolinggo": {"Banyuwangi":10000,"Jember":8500,"Probolinggo":5000,"Surabaya":6500},
+  "Surabaya": {"Banyuwangi":15000,"Jember":12500,"Probolinggo":6500,"Surabaya":5000}
+};
+
+function hitungBiaya() {
+  let berat = parseFloat(document.getElementById("berat").value);
+  let asal = document.getElementById("asal").value;
+  let tujuan = document.getElementById("tujuan").value;
+  if (!berat || !asal || !tujuan) {
+    document.getElementById("total").value = "";
+    return;
+  }
+
+  let biayaBerat = 0;
+  if (berat <= 1) biayaBerat = 1500;
+  else if (berat <= 5) biayaBerat = 2500;
+  else if (berat <= 10) biayaBerat = 3500;
+  else biayaBerat = 4500;
+
+  let biayaJrk = biayaJarak[asal][tujuan];
+  let total = biayaBerat + biayaJrk;
+  document.getElementById("total").value = total.toLocaleString();
+}
+
+// agar hitung otomatis juga saat isi berat
+document.getElementById("berat").addEventListener("input", hitungBiaya);
+</script>
+
+</body>
+</html>

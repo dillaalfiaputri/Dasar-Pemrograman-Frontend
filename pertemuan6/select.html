@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Bertingkat</title>
+</head>
+<body>
+
+    <h1>Pilih Lokasi</h1>
+
+    <label for="benua">Pilih Benua:</label>
+    <select id="benua" onchange="tampilkanPilihan()"> 
+        <option value="">-- Pilih salah satu --</option>
+        <option value="asia">Asia</option>
+        <option value="eropa">Eropa</option>
+        <option value="afrika">Afrika</option>
+        <option value="amerika">Amerika</option>
+    </select>
+
+    <p id="hasil"></p>
+
+    <script>
+        // PERBAIKAN 1: Hapus spasi dari nama fungsi dan sesuaikan panggilan onchange di HTML
+        function tampilkanPilihan() {
+            // 1. Ambil elemen <select>
+            const selectElement = document.getElementById('benua');
+            
+            // 2. Ambil elemen <p id="hasil">
+            // PERBAIKAN 2: Deklarasikan hasilElement
+            const hasilElement = document.getElementById('hasil'); 
+            
+            // Ambil nilai dan teks yang dipilih
+            const pilihanNilai = selectElement.value;
+            // PERBAIKAN 3: Perbaiki typo "pilihanTekst"
+            const pilihanTeks = selectElement.options[selectElement.selectedIndex].textContent; 
+
+            // 3. Periksa apakah pengguna telah memilih yang valid
+            if(pilihanNilai) {
+                // PERBAIKAN 4 & 5: Ganti HTMLDetailsElement dengan hasilElement
+                // dan gunakan Template Literals (ES6) atau konkatenasi string standar.
+                hasilElement.textContent = `Anda memilih benua: ${pilihanTeks}. Nilai yang dikirim adalah: ${pilihanNilai}.`;
+                // PERBAIKAN 6: Menggunakan warna CSS yang valid
+                hasilElement.style.color = 'green'; 
+            } else {
+                hasilElement.textContent = 'Silakan pilih benua terlebih dahulu.';
+                hasilElement.style.color = 'red';
+            }
+        }
+    </script>
+
+</body>
+</html>
