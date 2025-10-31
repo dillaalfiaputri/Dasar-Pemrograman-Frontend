@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Aplikasi Penjualan Komputer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="box">
+    <h2>APLIKASI PENJUALAN COMPUTER</h2>
+
+    <div class="data-barang">
+      <h3><u>Data Barang</u></h3>
+
+      <label>Kategori :</label>
+      <select id="kategori">
+        <option value="">-- Pilih Kategori --</option>
+        <option value="pc">PC / Laptop</option>
+        <option value="aksesori">Aksesoris</option>
+      </select>
+      <button class="btn" onclick="openPopup()">☰</button><br>
+
+      <label>Nama Barang :</label>
+      <input type="text" id="nama" readonly><br>
+
+      <label>Harga Satuan : Rp.</label>
+      <input type="number" id="harga" readonly><br>
+
+      <label>Jumlah :</label>
+      <input type="number" id="jumlah" value="1" min="1"><br><br>
+
+      <label>Jenis Penjualan :</label>
+      <input type="text" id="jenis" readonly>
+      <button class="btn" onclick="openPopupJenis()">☰</button><br><br>
+    </div>
+
+    <div class="hasil">
+      <label>Total Penjualan : Rp.</label>
+      <input type="text" id="total" readonly><br>
+      <label>Diskon : Rp.</label>
+      <input type="text" id="diskon" readonly><br>
+      <label>Pajak : Rp.</label>
+      <input type="text" id="pajak" readonly><br>
+      <label>Harga Total : Rp.</label>
+      <input type="text" id="hargaTotal" readonly>
+    </div>
+
+  <!-- POPUP PC/LAPTOP -->
+  <div class="popup" id="popup-pc">
+    <h3>PC / LAPTOP</h3>
+    <label><input type="radio" name="barang-pc" value="PC IBM Core i7|5600000"> PC IBM Core i7 - Rp. 5.600.000</label><br>
+    <label><input type="radio" name="barang-pc" value="Laptop Asus Core i5|4500000"> Laptop Asus Core i5 - Rp. 4.500.000</label><br>
+    <label><input type="radio" name="barang-pc" value="Laptop Lenovo AMD Ryzen 5|9500000"> Laptop Lenovo AMD Ryzen 5 - Rp. 9.500.000</label><br>
+    <button onclick="simpanBarang('pc')">Simpan</button>
+    <button onclick="tutupPopup('pc')">Batal</button>
+  </div>
+
+  <!-- POPUP AKSESORIS -->
+  <div class="popup" id="popup-aksesori">
+    <h3>AKSESORIS</h3>
+    <label><input type="radio" name="barang-aksesori" value="Flasdisk 32GB|50000"> Flasdisk 32GB - Rp. 50.000</label><br>
+    <label><input type="radio" name="barang-aksesori" value="Hardisk 256GB|1250000"> Hardisk 256GB - Rp. 1.250.000</label><br>
+    <label><input type="radio" name="barang-aksesori" value="Speaker Aktif|255000"> Speaker Aktif - Rp. 255.000</label><br>
+    <button onclick="simpanBarang('aksesori')">Simpan</button>
+    <button onclick="tutupPopup('aksesori')">Batal</button>
+  </div>
+
+  <!-- POPUP JENIS PENJUALAN -->
+  <div class="popup" id="popup-jenis">
+    <h3>JENIS PENJUALAN</h3>
+    <label><input type="radio" name="jenis-penjualan" value="tunai"> Tunai</label><br>
+    <label><input type="radio" name="jenis-penjualan" value="kredit"> Kredit</label><br>
+    <button onclick="simpanJenis()">Simpan</button>
+    <button onclick="tutupPopupJenis()">Batal</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

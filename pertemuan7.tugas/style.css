@@ -1,0 +1,92 @@
+body {
+  font-family: Calibri, Arial, sans-serif;
+  background-color: #ffffff;
+}
+
+.box {
+  width: 600px;
+  margin: 30px auto;
+  border: 2px solid #6cc36c;
+  border-radius: 25px;
+  padding: 30px;
+}
+
+h2 {
+  text-align: center;
+}
+
+.data-barang label {
+  display: inline-block;
+  width: 180px;
+  margin-bottom: 5px;
+}
+
+input, select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #888;
+}
+
+.btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
+.hasil {
+  background-color: #cce5ff;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 15px;
+}
+
+.hasil label {
+  display: inline-block;
+  width: 180px;
+}
+
+.ketentuan {
+  margin-top: 20px;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 25%;
+  left: 38%;
+  width: 300px;
+  border-radius: 10px;
+  padding: 20px;
+  border: 2px solid #555;
+  background-color: #fff;
+  z-index: 100;
+}
+
+.popup h3 {
+  text-align: center;
+  background-color: #d6f5d6;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.popup button {
+  margin-top: 10px;
+  margin-right: 5px;
+  padding: 5px 15px;
+  border: none;
+  background-color: #6cc36c;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup button:hover {
+  background-color: #4caf50;
+}
