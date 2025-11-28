@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animasi jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #kotak {
+            width: 100px;
+            height: 100px;
+            background-color: orange;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="gerak">Gerakkan Kotak</button>
+    <div id="kotak"></div>
+
+    <script>
+        $("#gerak").click(function() {
+            $("#kotak").animate({
+                left: "300px",
+                opacity: 0.5,
+                width: "150px",
+                height: "150px"
+            }, 1000)
+            .animate({
+                left: "0px",
+                opacity: 1,
+                width: "100px",
+                height: "100px"
+            }, 1000);
+        });
+    </script>
+
+</body>
+</html>

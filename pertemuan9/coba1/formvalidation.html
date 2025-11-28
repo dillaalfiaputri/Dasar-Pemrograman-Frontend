@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Validasi Form jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <form id="daftar">
+        <input type="text" id="nama" placeholder="Masukkan nama"><br><br>
+        <input type="email" id="email" placeholder="Masukkan email"><br><br>
+        <button type="submit">Kirim</button>
+    </form>
+
+    <p id="pesan"></p>
+
+    <script>
+        $("#daftar").submit(function(e) {
+            e.preventDefault(); // Cegah reload halaman
+
+            const nama = $("#nama").val().trim();
+            const email = $("#email").val().trim();
+
+            if (nama === "" || email === "") {
+                $("#pesan").text("❌ Semua field harus diisi!").css("color", "red");
+            } else {
+                $("#pesan").text("✅ Data valid, siap dikirim!").css("color", "green");
+            }
+        });
+    </script>
+
+</body>
+</html>

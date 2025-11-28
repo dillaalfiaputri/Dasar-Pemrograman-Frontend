@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD Tabel jQuery + localStorage</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .form-area {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .form-area input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-area input:focus {
+            border-color: #667eea;
+        }
+
+        .form-area button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        #addBtn {
+            background: #28a745;
+            color: white;
+        }
+
+        #addBtn:hover {
+            background: #218838;
+        }
+
+        #updateBtn {
+            background: #ffc107;
+            color: #000;
+            display: none;
+        }
+
+        #updateBtn:hover {
+            background: #e0a800;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: #667eea;
+            color: white;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .action-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .edit-btn {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: #138496;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>CRUD Tabel dengan jQuery + localStorage</h2>
+
+    <div class="form-area">
+        <input type="text" id="nama" placeholder="Nama">
+        <input type="text" id="alamat" placeholder="Alamat">
+        <button id="addBtn">Tambah</button>
+        <button id="updateBtn" style="display:none;">Update</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Alamat</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="tableData"></tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        let data = [];
+        let editIndex = -1;
+
+        // Load data dari localStorage saat halaman dimuat
+        function loadData() {
+            const stored = localStorage.getItem('tableData');
+            if (stored) {
+                data = JSON.parse(stored);
+                displayData();
+            }
+        }
+
+        // Simpan data ke localStorage
+        function saveData() {
+            localStorage.setItem('tableData', JSON.stringify(data));
+        }
+
+        // Tampilkan data ke tabel
+        function displayData() {
+            $('#tableData').empty();
+            data.forEach(function(item, index) {
+                const row = `
+                    <tr>
+                        <td>${item.nama}</td>
+                        <td>${item.alamat}</td>
+                        <td>
+                            <button class="action-btn edit-btn" data-index="${index}">Edit</button>
+                            <button class="action-btn delete-btn" data-index="${index}">Hapus</button>
+                        </td>
+                    </tr>
+                `;
+                $('#tableData').append(row);
+            });
+        }
+
+        // Tambah data
+        $('#addBtn').click(function() {
+            const nama = $('#nama').val().trim();
+            const alamat = $('#alamat').val().trim();
+
+            if (nama === '' || alamat === '') {
+                alert('Nama dan Alamat tidak boleh kosong!');
+                return;
+            }
+
+            data.push({ nama: nama, alamat: alamat });
+            saveData();
+            displayData();
+
+            // Bersihkan input
+            $('#nama').val('');
+            $('#alamat').val('');
+        });
+
+        // Edit data
+        $(document).on('click', '.edit-btn', function() {
+            editIndex = $(this).data('index');
+            const item = data[editIndex];
+
+            $('#nama').val(item.nama);
+            $('#alamat').val(item.alamat);
+
+            $('#addBtn').hide();
+            $('#updateBtn').show();
+        });
+
+        // Update data
+        $('#updateBtn').click(function() {
+            const nama = $('#nama').val().trim();
+            const alamat = $('#alamat').val().trim();
+
+            if (nama === '' || alamat === '') {
+                alert('Nama dan Alamat tidak boleh kosong!');
+                return;
+            }
+
+            data[editIndex] = { nama: nama, alamat: alamat };
+            saveData();
+            displayData();
+
+            // Reset form
+            $('#nama').val('');
+            $('#alamat').val('');
+            $('#addBtn').show();
+            $('#updateBtn').hide();
+            editIndex = -1;
+        });
+
+        // Hapus data
+        $(document).on('click', '.delete-btn', function() {
+            const index = $(this).data('index');
+            
+            if (confirm('Yakin ingin menghapus data ini?')) {
+                data.splice(index, 1);
+                saveData();
+                displayData();
+            }
+        });
+
+        // Load data saat halaman pertama kali dimuat
+        loadData();
+    });
+</script>
+
+</body>
+</html>

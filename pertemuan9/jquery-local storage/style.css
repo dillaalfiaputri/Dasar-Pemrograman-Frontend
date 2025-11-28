@@ -1,0 +1,60 @@
+body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+
+        .container {
+            width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .form-area {
+            margin-bottom: 20px;
+        }
+
+        .form-area input {
+            padding: 10px;
+            width: 40%;
+            margin-right: 10px;
+        }
+
+        .form-area button {
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .action-btn {
+            margin-right: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            border: none;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .edit-btn {
+            background: #ffa500;
+        }
+
+        .delete-btn {
+            background: crimson;
+        }

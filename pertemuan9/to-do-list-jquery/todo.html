@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Aplikasi To-Do List jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        #taskInput {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #taskInput:focus {
+            border-color: #667eea;
+        }
+
+        #addBtn {
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #addBtn:hover {
+            background: #5568d3;
+        }
+
+        #taskList {
+            list-style: none;
+        }
+
+        #taskList li {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        #taskList li:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        #taskList li.completed {
+            background: #d4edda;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .task-text {
+            flex: 1;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Aplikasi To-Do List</h2>
+    
+    <div class="input-area">
+        <input type="text" id="taskInput" placeholder="Masukkan tugas baru...">
+        <button id="addBtn">Tambah</button>
+    </div>
+
+    <ul id="taskList"></ul>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // Fungsi untuk menambah tugas
+        function addTask() {
+            const taskText = $("#taskInput").val().trim();
+            
+            if (taskText === "") {
+                alert("Tugas tidak boleh kosong!");
+                return;
+            }
+
+            const taskItem = $("<li></li>");
+            const taskSpan = $("<span class='task-text'></span>").text(taskText);
+            const deleteBtn = $("<button class='delete-btn'>Hapus</button>");
+
+            taskItem.append(taskSpan);
+            taskItem.append(deleteBtn);
+            $("#taskList").append(taskItem);
+
+            $("#taskInput").val("");
+            $("#taskInput").focus();
+        }
+
+        // Event: Klik tombol Tambah
+        $("#addBtn").click(function() {
+            addTask();
+        });
+
+        // Event: Tekan Enter untuk menambah tugas
+        $("#taskInput").keypress(function(e) {
+            if (e.which === 13) {
+                addTask();
+            }
+        });
+
+        // Event: Klik tugas untuk menandai selesai
+        $(document).on("click", ".task-text", function() {
+            $(this).parent().toggleClass("completed");
+        });
+
+        // Event: Hapus tugas
+        $(document).on("click", ".delete-btn", function() {
+            $(this).parent().fadeOut(300, function() {
+                $(this).remove();
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
