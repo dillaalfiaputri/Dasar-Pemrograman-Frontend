@@ -1,0 +1,108 @@
+/* GLOBAL BACKGROUND */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+/* form & input */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-color: #333;
+}
+
+/* link */
+body.dark-mode a {
+    color: #0d6efd;
+}
+
+
+/* Containers */
+body.dark-mode .container,
+body.dark-mode .card,
+body.dark-mode .list-group-item,
+body.dark-mode .alert,
+body.dark-mode .info-card,
+body.dark-mode .bottom-action,
+body.dark-mode .product-card {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-color: #333;
+}
+
+/* Navbar */
+body.dark-mode .navbar {
+    background-color: #000;
+}
+
+/* Forms */
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+    background-color: #222;
+    color: #fff;
+    border-color: #444;
+}
+
+body.dark-mode ::placeholder {
+    color: #aaa;
+}
+
+/* Buttons */
+body.dark-mode .btn-outline-secondary {
+    color: #fff;
+    border-color: #555;
+}
+
+/* Bottom Nav */
+body.dark-mode .bottom-nav {
+    background-color: #1e1e1e;
+    border-color: #333;
+}
+
+/* Category Icon */
+body.dark-mode .cat-icon {
+    background-color: #333;
+}
+
+/* Bootstrap bg-light killer */
+body.dark-mode .bg-light {
+    background-color: #1e1e1e;
+}
+
+/* Detail produk text fix */
+body.dark-mode .info-card p,
+body.dark-mode .info-card small,
+body.dark-mode .info-card span {
+    color: #e0e0e0 !important;
+    opacity: 1 !important;
+}
+
+/* ===============================
+   TEKS PRODUK (LIGHT & DARK)
+================================ */
+
+/* Terjual & info kecil */
+.product-terjual {
+    color: #333;
+}
+
+/* Tombol cart text */
+.btn-cart {
+    color: #fff !important;
+    font-weight: 600;
+}
+
+/* DARK MODE */
+body.dark-mode .product-terjual {
+    color: #e0e0e0 !important;
+}
+
+/* Pastikan text btn primary selalu putih */
+body.dark-mode .btn-primary,
+.btn-primary {
+    color: #fff !important;
+}
+

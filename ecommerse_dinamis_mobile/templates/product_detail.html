@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ product.nama }} - Stikom Mart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/dark.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-dark p-2 shadow-sm">
+    <div class="container d-flex justify-content-between">
+        <span class="navbar-brand fw-bold fs-5">APOTIK VIA</span>
+        
+        <button id="darkModeToggle" class="btn btn-outline-light btn-sm">🌙</button>
+    
+    </div>
+</nav>
+
+<!-- Gambar Produk -->
+<div>
+    <img src="/static/{{ product.gambar }}" class="product-img" alt="Produk">
+</div>
+
+<div class="container mb-5 pb-5">
+
+    <!-- Card Informasi Produk -->
+    <div class="info-card shadow-sm">
+        
+        <h5 class="fw-bold">{{ product.nama }}</h5>
+        
+        <h4 class="text-primary fw-bold mt-1 mb-3">
+            Rp {{ "{:,.0f}".format(product.harga) }}
+        </h4>
+        
+        <div class="mt-2">
+            <h6 class="fw-bold">Kategori</h6>
+            <p class="small text-light">
+                {{ product.kategori }}
+            </p>
+
+        </div>
+        
+        <div class="mt-2">
+            <p class="small product-terjual">
+                <strong>Terjual:</strong> {{ product.terjual }} pcs
+            </p>
+
+
+
+        </div>
+    
+    </div>
+
+</div>
+
+<!-- Bottom Action Buttons -->
+<div class="bottom-action">
+    <a href="/" class="btn btn-outline-secondary">Kembali</a>
+    <a href="/cart/add/{{ product._id }}" class="btn btn-primary btn-cart">
+        Tambah ke Keranjang
+    </a>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/darkmode.js"></script>
+
+</body>
+</html>
