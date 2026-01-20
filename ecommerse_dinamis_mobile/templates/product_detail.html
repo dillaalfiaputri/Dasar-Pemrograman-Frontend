@@ -23,7 +23,8 @@
 
 <!-- Gambar Produk -->
 <div>
-    <img src="/static/{{ product.gambar }}" class="product-img" alt="Produk">
+  <img src="/uploads/{{ product.foto }}" class="product-img" alt="Produk">
+
 </div>
 
 <div class="container mb-5 pb-5">
@@ -49,10 +50,24 @@
             <p class="small product-terjual">
                 <strong>Terjual:</strong> {{ product.terjual }} pcs
             </p>
-
-
+            <p class="small">
+                <strong>Stok:</strong>
+                {% if product.jumlah > 0 %}
+                    {{ product.jumlah }} pcs
+                {% else %}
+                    <span class="text-danger fw-bold">Habis</span>
+                {% endif %}
+            </p>
 
         </div>
+
+          <!-- ✅ DESKRIPSI -->
+    <div class="mt-3">
+        <h6 class="fw-bold">Deskripsi Produk</h6>
+        <p class="small text-muted">
+            {{ product.deskripsi or "Deskripsi belum tersedia." }}
+        </p>
+    </div>
     
     </div>
 

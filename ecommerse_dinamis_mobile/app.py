@@ -1,15 +1,16 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, jsonify, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from flask import jsonify
 import os
 from werkzeug.utils import secure_filename
 
+APOTIK_LAT = -8.2314783
+APOTIK_LNG = 114.3660722
 
 app = Flask(__name__)
 app.secret_key = "secret123"
-UPLOAD_FOLDER = "static/img"
+UPLOAD_FOLDER = r"D:/Kuliah/uploads"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -36,16 +37,16 @@ def product_detail(id):
 
 @app.route("/cart/add/<id>")
 def add_to_cart(id):
+    product = products_collection.find_one({"_id": ObjectId(id)})
+    if not product or product.get("jumlah", 0) <= 0:
+        return "Stok habis", 400
+
     if "cart" not in session:
         session["cart"] = {}
 
-    # tambahkan quantity
-    if id in session["cart"]:
-        session["cart"][id] += 1
-    else:
-        session["cart"][id] = 1
-
+    session["cart"][id] = session["cart"].get(id, 0) + 1
     session.modified = True
+
     return redirect("/cart")
 
 @app.route("/cart")
@@ -77,28 +78,99 @@ def cart():
 
 @app.route("/checkout", methods=["GET", "POST"])
 def checkout():
-    #GET: tampilkan halaman sukses
     if request.method == "GET":
         return render_template("checkout.html")
 
-    #POST: proses checkout
-    if "cart" not in session or not isinstance(session["cart"], dict):
-        session["cart"] = {}
+    cart = session.get("cart", {})
+    if not cart:
+        return "Keranjang kosong", 400
 
-    for pid, qty in session["cart"].items():
+    alamat = request.form.get("alamat")
+    ongkir = int(request.form.get("ongkir", 0))
+
+    if not alamat:
+        return "Alamat wajib diisi", 400
+
+    total_harga = 0
+
+    for pid, qty in cart.items():
         product = products_collection.find_one({"_id": ObjectId(pid)})
-        if product:
-            products_collection.update_one(
-                {"_id": ObjectId(pid)},
-                {"$inc": {"terjual": qty}}
-            )
 
-    # reset cart
+        if not product:
+            continue
+
+        # ✅ CEK STOK (FIELD JUMLAH)
+        if product.get("jumlah", 0) < qty:
+            return f"Stok {product['nama']} tidak mencukupi", 400
+
+        subtotal = product["harga"] * qty
+        total_harga += subtotal
+
+        # ✅ UPDATE TERJUAL & JUMLAH
+        products_collection.update_one(
+            {"_id": ObjectId(pid)},
+            {
+                "$inc": {
+                    "terjual": qty,
+                    "jumlah": -qty
+                }
+            }
+        )
+
+    total_bayar = total_harga + ongkir
+
+    session["alamat_pengiriman"] = alamat
+    session["ongkir"] = ongkir
+    session["total_bayar"] = total_bayar
+
     session["cart"] = {}
     session.modified = True
 
-    # redirect ke halaman sukses
     return redirect("/checkout")
+
+
+
+    total_bayar = total_harga + ongkir
+
+    session["alamat_pengiriman"] = alamat
+    session["ongkir"] = ongkir
+    session["total_bayar"] = total_bayar
+
+    session["cart"] = {}
+    session.modified = True
+
+    return redirect("/")
+
+
+# @app.route("/checkout", methods=["GET", "POST"])
+# def checkout():
+#     if request.method == "GET":
+#         return render_template("checkout.html")
+
+#     alamat = request.form.get("alamat")
+
+#     if not alamat:
+#         return "Alamat wajib diisi", 400
+
+#     if "cart" not in session or not isinstance(session["cart"], dict):
+#         session["cart"] = {}
+
+#     for pid, qty in session["cart"].items():
+#         product = products_collection.find_one({"_id": ObjectId(pid)})
+#         if product:
+#             products_collection.update_one(
+#                 {"_id": ObjectId(pid)},
+#                 {"$inc": {"terjual": qty}}
+#             )
+
+#     # contoh: simpan alamat ke session (atau ke database nanti)
+#     session["alamat_pengiriman"] = alamat
+
+#     session["cart"] = {}
+#     session.modified = True
+
+#     return redirect("/checkout")
+
 
 @app.route("/cart/remove/<id>")
 def remove_from_cart(id):
@@ -132,7 +204,6 @@ def register():
         users_collection.insert_one({
             "username": username,
             "password": hashed_pw,
-            "role": "admin"
         })
 
         return redirect("/login")
@@ -182,74 +253,39 @@ def api_produk():
 
     return jsonify(products)
 
-@app.route("/produk/tambah", methods=["GET", "POST"])
-def tambah_produk():
-    if session.get("role") != "admin":
-        return "Akses ditolak", 403
+@app.route("/uploads/<filename>")
+def uploaded_file(filename):
+    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
-    if request.method == "POST":
-        nama = request.form["nama"]
-        harga = int(request.form["harga"])
-        kategori = request.form["kategori"]
+@app.route("/api/pt")
+def api_pt():
+    pts = products_collection.distinct("pt")
+    return jsonify(pts)
 
-        file = request.files["gambar"]
+@app.route("/api/kategori")
+def api_kategori():
+    pt = request.args.get("pt")
+    kategori = products_collection.distinct("kategori", {"pt": pt})
+    return jsonify(kategori)
 
-        if not file or not allowed_file(file.filename):
-            return "File gambar tidak valid", 400
+@app.route("/api/produk/filter")
+def api_produk_filter():
+    pt = request.args.get("pt")
+    kategori = request.args.get("kategori")
 
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+    query = {}
+    if pt:
+        query["pt"] = pt
+    if kategori:
+        query["kategori"] = {"$regex": f"^{kategori}$", "$options": "i"}
 
-        products_collection.insert_one({
-            "nama": nama,
-            "harga": harga,
-            "kategori": kategori,
-            "gambar": f"img/{filename}",
-            "terjual": 0
-        })
+    products = list(products_collection.find(query))
+    for p in products:
+        p["_id"] = str(p["_id"])
 
-        return redirect("/")
+    return jsonify(products)
+    
 
-    return render_template("tambah_produk.html")
-
-
-@app.route("/produk/hapus/<id>")
-def hapus_produk(id):
-    if session.get("role") != "admin":
-        return "Akses ditolak", 403
-
-    products_collection.delete_one({"_id": ObjectId(id)})
-    return redirect("/")
-
-@app.route("/produk/edit/<id>", methods=["GET", "POST"])
-def edit_produk(id):
-    if session.get("role") != "admin":
-        return "Akses ditolak", 403
-
-    produk = products_collection.find_one({"_id": ObjectId(id)})
-
-    if not produk:
-        return "Produk tidak ditemukan", 404
-
-    if request.method == "POST":
-        nama = request.form["nama"]
-        harga = int(request.form["harga"])
-        kategori = request.form["kategori"]
-        gambar = request.form["gambar"]
-
-        products_collection.update_one(
-            {"_id": ObjectId(id)},
-            {"$set": {
-                "nama": nama,
-                "harga": harga,
-                "kategori": kategori,
-                "gambar": gambar
-            }}
-        )
-
-        return redirect("/")
-
-    return render_template("edit_produk.html", produk=produk)
 
 if __name__ == "__main__":
     app.run(debug=True)

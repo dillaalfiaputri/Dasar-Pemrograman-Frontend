@@ -1,23 +1,55 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const kategoriBtns = document.querySelectorAll(".kategori-btn");
-    const produkRekom = document.getElementById("produk-rekomendasi");
-    const produkKategori = document.getElementById("produk-kategori");
-    const judul = document.getElementById("judul-kategori");
+const kategoriIcon = {
+    "suplemen": "💊",
+    "bronkodilator": "🫁",
+    "lambung": "🍽️",
+    "antiemetik": "🤢",
+    "antidiabetes": "🩸",
+    "obat Alergi": "🤧",
+    "antidiare": "🚽",
+    "obat Demam": "🌡️",
+    "antijamur": "🍄",
+    "analgesik": "😣",
+    "kortikosteroid": "💉",
+    "antibiotik": "🦠"
+};
 
-    // ⛔ JIKA BUKAN HALAMAN INDEX → STOP
-    if (!kategoriBtns.length || !produkRekom || !produkKategori || !judul) return;
+function renderKategori(data, pt) {
+    const container = document.getElementById("list-kategori");
+    container.innerHTML = "";
 
-    kategoriBtns.forEach(btn => {
-        btn.addEventListener("click", async () => {
-            const kategori = btn.dataset.kategori;
-            const res = await fetch(`/api/produk?kategori=${kategori}`);
-            const data = await res.json();
+    data.forEach(kat => {
+        // ambil ikon sesuai kategori (fallback 💊)
+        const icon = kategoriIcon[kat.toLowerCase()] || "💊";
 
-            judul.innerText = "Kategori: " + kategori;
-            produkRekom.style.display = "none";
-            produkKategori.style.display = "block";
-
-            renderProdukKategori(data);
-        });
+        container.innerHTML += `
+          <div class="col-3 kategori-btn" data-kategori="${kat}" data-pt="${pt}">
+            <div class="cat-icon">${icon}</div>
+            <small>${kat}</small>
+          </div>
+        `;
     });
+}
+
+
+
+document.addEventListener("click", async e => {
+    const btn = e.target.closest(".kategori-btn");
+    if (!btn) return;
+
+    const kategori = btn.dataset.kategori;
+    const pt = btn.dataset.pt;
+
+    // ⛔ SAFETY CHECK
+    if (!pt || !kategori) return;
+
+    const res = await fetch(
+        `/api/produk/filter?pt=${encodeURIComponent(pt)}&kategori=${encodeURIComponent(kategori)}`
+    );
+    const data = await res.json();
+
+    document.getElementById("produk-rekomendasi").style.display = "none";
+    document.getElementById("produk-kategori").style.display = "block";
+
+    renderProdukKategori(data);
 });
+
