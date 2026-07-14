@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Laporan Keuangan</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+  <style>
+    body {
+      background: #f5f7fb;
+    }
+
+    .card-box {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      padding: 20px;
+    }
+
+    .money {
+      font-size: 28px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container mt-4">
+
+<h2 class="mb-4">💰 Laporan Keuangan</h2>
+
+<div class="mb-4 p-3 bg-white rounded shadow-sm">
+  <h5>Total Omzet: <strong>Rp <%= totalOmzet %></strong></h5>
+  <h5>Total Profit: <strong>Rp <%= totalProfit %></strong></h5>
+</div>
+
+  <div class="row">
+
+    <div class="col-md-3 mb-3">
+      <div class="card card-box text-center">
+        <h5>Total Modal</h5>
+        <p class="money text-warning">
+          Rp <%= totalModal %>
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <div class="card card-box text-center">
+        <h5>Laba Kotor</h5>
+        <p class="money text-success">
+          Rp <%= labaKotor %>
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <div class="card card-box text-center">
+        <h5>Pengeluaran</h5>
+        <p class="money text-danger">
+          Rp <%= pengeluaran %>
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <div class="card card-box text-center">
+        <h5>Laba Bersih</h5>
+        <p class="money text-primary">
+          Rp <%= labaBersih %>
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card card-box text-center">
+        <h5>Harian</h5>
+        <p class="money text-primary">
+          Rp <%= harian %>
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card card-box text-center">
+        <h5>Mingguan</h5>
+        <p class="money text-success">
+          Rp <%= mingguan %>
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card card-box text-center">
+        <h5>Bulanan</h5>
+        <p class="money text-danger">
+          Rp <%= bulanan %>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card mt-4 p-3">
+
+  <h4>Ringkasan Keuangan</h4>
+
+  <table class="table table-bordered mt-3">
+
+    <!-- FILTER TANGGAL -->
+
+<div class="card mt-4 p-3">
+
+  <h4>Filter Tanggal</h4>
+
+  <form method="GET" action="/laporan-keuangan">
+
+<div class="row">
+
+  <div class="col-md-4">
+    <label>Tanggal Awal</label>
+
+    <input
+      type="date"
+      name="tanggal_awal"
+      class="form-control"
+      value="<%= tanggal_awal %>"
+    >
+  </div>
+
+  <div class="col-md-4">
+    <label>Tanggal Akhir</label>
+
+    <input
+      type="date"
+      name="tanggal_akhir"
+      class="form-control"
+      value="<%= tanggal_akhir %>"
+    >
+  </div>
+
+  <div class="col-md-4 d-flex align-items-end">
+    <button class="btn btn-primary w-100">
+      Filter
+    </button>
+  </div>
+
+</div>
+
+  </form>
+
+</div>
+
+<!-- LAPORAN LABA RUGI -->
+
+<div class="card mt-4 p-3">
+
+  <h4>Laporan Laba Rugi</h4>
+
+  <table class="table table-bordered mt-3">
+
+<thead class="table-dark">
+  <tr>
+    <th>Keterangan</th>
+    <th>Nominal</th>
+  </tr>
+</thead>
+
+<tbody>
+
+  <tr>
+    <td>Total Penjualan</td>
+    <td>Rp <%= totalOmzet %></td>
+  </tr>
+
+  <tr>
+    <td>Total Modal</td>
+    <td>Rp <%= totalModal %></td>
+  </tr>
+
+  <tr>
+    <td>Laba Kotor</td>
+    <td>Rp <%= labaKotor %></td>
+  </tr>
+
+  <tr>
+    <td>Pengeluaran</td>
+    <td>Rp <%= pengeluaran %></td>
+  </tr>
+
+  <tr class="table-success">
+    <td>
+      <strong>Laba Bersih</strong>
+    </td>
+
+    <td>
+      <strong>
+        Rp <%= labaBersih %>
+      </strong>
+    </td>
+  </tr>
+
+</tbody>
+
+  </table>
+
+</div>
+<form action="/laporan-keuangan" method="GET">
+
+<div class="row mb-3">
+
+<div class="col-md-4">
+
+<label>Dari</label>
+
+<input
+type="date"
+name="tanggal_awal"
+class="form-control"
+value="<%= tanggal_awal %>">
+
+</div>
+
+<div class="col-md-4">
+
+<label>Sampai</label>
+
+<input
+type="date"
+name="tanggal_akhir"
+class="form-control"
+value="<%= tanggal_akhir %>">
+
+</div>
+
+<div class="col-md-4 d-flex align-items-end">
+
+<button class="btn btn-primary w-100">
+Filter
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+<div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+
+    <h4>Data Pengeluaran</h4>
+
+    <button
+        class="btn btn-danger"
+        data-bs-toggle="modal"
+        data-bs-target="#modalPengeluaran">
+        + Tambah Pengeluaran</button>
+    </button>
+
+</div>
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-dark">
+
+<tr>
+    <th>No</th>
+    <th>Tanggal</th>
+    <th>Kategori</th>
+    <th>Keterangan</th>
+    <th>Nominal</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<% pengeluaranData.forEach((item,index)=>{ %>
+
+<tr>
+
+<td><%= index+1 %></td>
+
+<td>
+<%= new Date(item.tanggal).toLocaleDateString("id-ID") %>
+</td>
+
+<td><%= item.kategori %></td>
+
+<td><%= item.keterangan %></td>
+
+<td class="text-danger">
+Rp <%= item.nominal.toLocaleString("id-ID") %>
+</td>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+
+</table>
+
+<!-- DETAIL TRANSAKSI -->
+
+<div class="card mt-4 p-3">
+
+  <h4>Detail Transaksi</h4>
+
+  <div class="table-responsive">
+
+<table class="table table-bordered table-striped mt-3">
+
+  <thead class="table-dark">
+
+    <tr>
+
+      <th>No</th>
+      <th>No Order</th>
+      <th>Tanggal</th>
+      <th>Pembeli</th>
+      <th>Obat</th>
+      <th>Qty</th>
+      <th>Harga</th>
+      <th>Modal</th>
+      <th>Subtotal</th>
+      <th>Profit</th>
+      <th>Metode</th>
+      <th>Status</th>
+
+    </tr>
+
+  </thead>
+
+  <tbody>
+
+    <% detailLaporan.forEach((item, index) => { %>
+
+      <tr>
+
+        <td><%= index + 1 %></td>
+
+        <td>
+          <%= item.no_order %>
+        </td>
+
+        <td>
+          <%= item.tanggal %>
+        </td>
+
+        <td>
+          <%= item.nama_pembeli %>
+        </td>
+
+        <td>
+          <%= item.nama_barang %>
+        </td>
+
+        <td>
+          <%= item.qty %>
+        </td>
+
+        <td>
+          Rp <%= item.harga %>
+        </td>
+
+        <td>
+          Rp <%= item.harga_pokok %>
+        </td>
+
+        <td>
+          Rp <%= item.subtotal %>
+        </td>
+
+        <td class="text-success">
+          Rp <%= item.profit %>
+        </td>
+
+        <td>
+          <%= item.metode_bayar %>
+        </td>
+
+        <td>
+          <%= item.status %>
+        </td>
+
+      </tr>
+
+    <% }) %>
+
+  </tbody>
+
+</table>
+
+  </div>
+
+</div>
+
+<!-- STATISTIK PRODUK -->
+
+<div class="card mt-4 p-3">
+
+  <h4>Statistik Produk</h4>
+
+  <table class="table table-bordered mt-3">
+
+<thead class="table-dark">
+
+  <tr>
+
+    <th>Nama Produk</th>
+    <th>Total Terjual</th>
+    <th>Total Profit</th>
+
+  </tr>
+
+</thead>
+
+<tbody>
+
+  <% for(let nama in statistikProduk) { %>
+
+    <tr>
+
+      <td>
+        <%= nama %>
+      </td>
+
+      <td>
+        <%= statistikProduk[nama].qty %>
+      </td>
+
+      <td class="text-success">
+        Rp <%= statistikProduk[nama].profit %>
+      </td>
+
+    </tr>
+
+  <% } %>
+
+</tbody>
+
+  </table>
+
+</div>
+
+
+<thead class="table-dark">
+  <tr>
+    <th>Keterangan</th>
+    <th>Nominal</th>
+  </tr>
+</thead>
+
+<tbody>
+
+  <tr>
+    <td>Total Omzet</td>
+    <td>Rp <%= totalOmzet %></td>
+  </tr>
+
+  <tr>
+    <td>Total Modal</td>
+    <td>Rp <%= totalModal %></td>
+  </tr>
+
+  <tr>
+    <td>Laba Kotor</td>
+    <td>Rp <%= labaKotor %></td>
+  </tr>
+
+  <tr>
+    <td>Pengeluaran</td>
+    <td>Rp <%= pengeluaran %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Laba Bersih</strong></td>
+    <td>
+      <strong>
+        Rp <%= labaBersih %>
+      </strong>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Jumlah Transaksi</td>
+    <td><%= jumlahTransaksi %></td>
+  </tr>
+
+</tbody>
+
+  </table>
+
+</div>
+
+
+  <a href="/" class="btn btn-dark mt-4">
+    ← Kembali
+  </a>
+
+</div>
+
+<div class="modal fade" id="modalPengeluaran">
+
+<div class="modal-dialog">
+
+<div class="modal-content">
+
+<form action="/pengeluaran" method="POST">
+
+<div class="modal-header">
+
+<h5>Tambah Pengeluaran</h5>
+
+<button
+type="button"
+class="btn-close"
+data-bs-dismiss="modal">
+</button>
+
+</div>
+
+<div class="modal-body">
+
+<div class="mb-3">
+<label>Tanggal</label>
+
+<input
+type="date"
+name="tanggal"
+class="form-control"
+required>
+</div>
+
+<div class="mb-3">
+<label>Kategori</label>
+
+<input
+type="text"
+name="kategori"
+class="form-control"
+placeholder="Listrik, Gaji, Air..."
+required>
+</div>
+
+<div class="mb-3">
+<label>Keterangan</label>
+
+<textarea
+name="keterangan"
+class="form-control"></textarea>
+</div>
+
+<div class="mb-3">
+<label>Nominal</label>
+
+<input
+type="number"
+name="nominal"
+class="form-control"
+required>
+</div>
+
+</div>
+
+<div class="modal-footer">
+
+<button
+class="btn btn-secondary"
+data-bs-dismiss="modal"
+type="button">
+Batal
+</button>
+
+<button
+class="btn btn-danger"
+type="submit">
+Simpan
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
